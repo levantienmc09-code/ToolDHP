@@ -30,10 +30,6 @@ except ImportError:
     print('__Cài đặt hoàn tất, vui lòng chạy lại Tool__')
     sys.exit()
 
-=====================================================================================
-PHẦN 1: MÃ NGUỒN XÁC THỰC (Đã tối giản)
-=====================================================================================
-
 CONFIGURATION
 HANOI_TZ = pytz.timezone('Asia/Ho_Chi_Minh') Múi giờ Hà Nội
 
@@ -61,10 +57,6 @@ def get_device_id():
         only_digits = (only_digits * 3)[:16]
 
     return f"DEVICE-{only_digits[:16]}"
-        
-=====================================================================================
-PHẦN 2: MÃ NGUỒN CÔNG CỤ CHÍNH (Đã loại bỏ Banner)
-=====================================================================================
 
 def clear_screen():
     os.system('cls' if platform.system() == "Windows" else 'clear')
